@@ -1,16 +1,14 @@
 import Classroom from '../models/ClassroomModel.js';
 
 const addclassroom = async (req, res) => {
-  const { classroomName, capacity, buildingLocation, assignedCourses } = req.body;
+  const { classroomName, capacity, buildingLocation } = req.body;
 
   try {
     const newClassroom = new Classroom({
       classroomName,
       capacity,
       buildingLocation,
-      assignedCourses
     });
-
     await newClassroom.save();
     res.status(201).json({ message: "Classroom created successfully", classroom: newClassroom });
   } catch (error) {
@@ -18,4 +16,41 @@ const addclassroom = async (req, res) => {
   }
 };
 
-export { addclassroom };
+const getAllClassrooms = async (req, res) => {
+  try {
+    const classrooms = await Classroom.find();
+    res.status(200).json({ classrooms });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching classrooms" });
+  }
+};
+
+const getclassroom = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const classroom = await Classroom.findById(id);
+    if (!classroom) {
+      return res.status(404).json({ message: "Classroom not found" });
+    }
+    res.status(200).json({ classroom });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching classroom" });
+  }
+};
+
+const updateclassroom = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updatedClassroom = await Classroom.findByIdAndUpdate(id, req.body, { new: true });
+    if (!updatedClassroom) {
+      return res.status(404).json({ message: "Classroom not found" });
+    }
+    res.status(200).json({ message: "Classroom updated successfully", classroom: updatedClassroom });
+  } catch (error) {
+    res.status(500).json({ message: "Error updating classroom" });
+  }
+};
+
+
+export { addclassroom, getAllClassrooms, getclassroom, updateclassroom };
+

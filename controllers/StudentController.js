@@ -14,7 +14,6 @@ const studentregister = async(req, res)=>{
   res.status(201).json({message: 'Student registered successfully', student});
   }
   catch (err) {
-    console.log(err);
     res.status(500).json({ message: 'Server error a raha ha' });
   }
 };
