@@ -1,8 +1,9 @@
 import express from 'express';
 const router = express.Router();
 
-import { addFee } from '../controllers/FeeController.js';
+import { addFee,getAllFees } from '../controllers/FeeController.js';
 
 router.post('/add', addFee);
+router.get('/allfees', getAllFees);
 
 export default router;
