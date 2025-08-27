@@ -1,4 +1,5 @@
 import Classroom from '../models/ClassroomModel.js';
+import course from '../models/CourseModel.js';
 
 const addclassroom = async (req, res) => {
   const { classroomName, capacity, buildingLocation } = req.body;
@@ -65,4 +66,23 @@ const deleteclassroom = async (req, res) => {
   }
 };
 
-export { addclassroom, getAllClassrooms, getclassroom, updateclassroom, deleteclassroom };
+const addcourseinclassroom = async (req, res) => {
+  const { id } = req.params;
+  const { courseId } = req.body;
+
+  try {
+    const classroom = await Classroom.findById(id);
+    if (!classroom) {
+      return res.status(404).json({ message: "Classroom not found" });
+    }
+
+    classroom.assignedCourses.push(courseId);
+    await classroom.save();
+
+    res.status(200).json({ message: "Course added to classroom successfully", classroom });
+  } catch (error) {
+    res.status(500).json({ message: "Error adding course to classroom" });
+  }
+};
+
+export { addclassroom, getAllClassrooms, getclassroom, updateclassroom, deleteclassroom, addcourseinclassroom };
