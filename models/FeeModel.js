@@ -26,4 +26,4 @@ const feeSchema = new mongoose.Schema({
   },
 }, {timestamps: true});
 
-module.exports = mongoose.model("Fee", feeSchema);
+export default mongoose.model("Fee", feeSchema);

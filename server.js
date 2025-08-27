@@ -33,6 +33,9 @@ app.use('/api/schoolEvents', SchoolEventRoutes);
 import  classroomRoutes from './routes/ClassroomRoutes.js';
 app.use('/api/classrooms', classroomRoutes);
 
+import feeRoutes from './routes/FeeRoutes.js';
+app.use('/api/fees', feeRoutes);
+
 app.listen(process.env.PORT , () => {
   console.log(`Server is Running on ${process.env.PORT}`)
 })
