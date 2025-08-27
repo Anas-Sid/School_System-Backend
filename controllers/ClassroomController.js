@@ -85,4 +85,23 @@ const addcourseinclassroom = async (req, res) => {
   }
 };
 
-export { addclassroom, getAllClassrooms, getclassroom, updateclassroom, deleteclassroom, addcourseinclassroom };
+const removeCourseFromClassroom = async (req, res) => {
+  const { id } = req.params;
+  const { courseId } = req.body;
+
+  try {
+    const classroom = await Classroom.findById(id);
+    if (!classroom) {
+      return res.status(404).json({ message: "Classroom not found" });
+    }
+
+    classroom.assignedCourses.pull(courseId);
+    await classroom.save();
+
+    res.status(200).json({ message: "Course removed from classroom successfully", classroom });
+  } catch (error) {
+    res.status(500).json({ message: "Error removing course from classroom" });
+  }
+};
+
+export { addclassroom, getAllClassrooms, getclassroom, updateclassroom, deleteclassroom, addcourseinclassroom, removeCourseFromClassroom };
