@@ -88,28 +88,22 @@ const deleteStudent = async (req, res) => {
 const courseenrollment = async (req, res) => {
   const { email } = req.params;
   const { courseCode } = req.body;
-
   try {
     const student = await Student.findOne({ email });
     if (!student) {
       return res.status(404).json({ message: 'Student not found' });
     }
-
     const course = await Course.findOne({ courseCode });
     if (!course) {
       return res.status(404).json({ message: 'Course not found' });
     }
-
     student.enrolledCourses.push(course._id);
     await student.save();
-
     course.studentsEnrolled.push(student._id);
     await course.save();
-
     res.status(200).json({ message: 'Course enrolled successfully', student });
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
   }
 };
-
 export { getStudentData, studentregister, getStudentCourses, getAllStudents, updateStudent, deleteStudent, courseenrollment };

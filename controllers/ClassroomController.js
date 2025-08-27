@@ -42,6 +42,7 @@ const updateclassroom = async (req, res) => {
   const { id } = req.params;
   try {
     const updatedClassroom = await Classroom.findByIdAndUpdate(id, req.body, { new: true });
+  console.log(updatedClassroom)
     if (!updatedClassroom) {
       return res.status(404).json({ message: "Classroom not found" });
     }
@@ -51,6 +52,17 @@ const updateclassroom = async (req, res) => {
   }
 };
 
+const deleteclassroom = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedClassroom = await Classroom.findByIdAndDelete(id);
+    if (!deletedClassroom) {
+      return res.status(404).json({ message: "Classroom not found" });
+    }
+    res.status(200).json({ message: "Classroom deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting classroom" });
+  }
+};
 
-export { addclassroom, getAllClassrooms, getclassroom, updateclassroom };
-
+export { addclassroom, getAllClassrooms, getclassroom, updateclassroom, deleteclassroom };
