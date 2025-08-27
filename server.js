@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
   res.send("School Management Api is Running...")
 })
 
-import studentRoutes from './routes/studentRoutes.js';
+import studentRoutes from './routes/StudentRoutes.js';
 app.use('/api/students', studentRoutes);
 
 import teacherRoutes from './routes/TeacherRoutes.js';
